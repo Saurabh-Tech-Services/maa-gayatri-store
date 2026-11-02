@@ -77,7 +77,7 @@ const HomePage = () => {
                 
                 const productsByCat = categoriesData.map((cat, index) => ({
                     ...cat,
-                    products: categoryProducts[index],
+                    products: Array.isArray(categoryProducts[index]) ? categoryProducts[index] : [],
                 }));
                 setProductsByCategory(productsByCat);
 
