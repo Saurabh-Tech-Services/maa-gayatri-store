@@ -85,7 +85,7 @@ const ProductDetailPage = () => {
         const fetchRecommended = async () => {
             if (userInfo) {
                 const { data } = await axios.get('/api/products/top-offers');
-                setRecommendedProducts(data.sort(() => 0.5 - Math.random()));
+                setRecommendedProducts(Array.isArray(data) ? [...data].sort(() => 0.5 - Math.random()) : []);
             }
         };
         fetchRecommended();

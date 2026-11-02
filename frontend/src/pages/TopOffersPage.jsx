@@ -33,7 +33,7 @@ const TopOffersPage = () => {
                     })
                 ]);
                 
-                setProducts(offersRes.data);
+                setProducts(Array.isArray(offersRes.data) ? offersRes.data : []);
                 setDynamicOffers(dynamicOffersRes.data || []);
             } catch (err) {
                 setError('Could not fetch offers. Please try again later.');
@@ -65,7 +65,7 @@ const TopOffersPage = () => {
     }, [location.hash, dynamicOffers]);
 
     const groupedProducts = useMemo(() => {
-        if (products.length === 0) return [];
+        if (!Array.isArray(products) || products.length === 0) return [];
 
         const groups = {
             90: [], 80: [], 70: [], 60: [], 50: [], 40: [], 30: [], 20: [], 10: [], 0: []

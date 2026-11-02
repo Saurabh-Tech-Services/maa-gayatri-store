@@ -57,17 +57,18 @@ const HomePage = () => {
             setError(null);
             try {
                 const offersData = await fetchWithCache('/api/products/top-offers', 'topOffers', 7200000);
-                setTopOffers(offersData);
+                setTopOffers(Array.isArray(offersData) ? offersData : []);
 
                 try {
                     const dynamicOffersData = await fetchWithCache('/api/offers', 'dynamicOffers', 3600000);
-                    setDynamicOffers(dynamicOffersData);
+                    setDynamicOffers(Array.isArray(dynamicOffersData) ? dynamicOffersData : []);
                 } catch (offerError) {
                     console.log("Offers endpoint not available yet:", offerError);
                     setDynamicOffers([]);
                 }
 
-                const categoriesData = await fetchWithCache('/api/categories', 'categories', 86400000);
+                const rawCategories = await fetchWithCache('/api/categories', 'categories', 86400000);
+                const categoriesData = Array.isArray(rawCategories) ? rawCategories : [];
                 
                 const categoryProductPromises = categoriesData.map(cat =>
                     fetchWithCache(`/api/products/category/${cat._id}`, `category_${cat._id}`, 14400000)
@@ -225,7 +226,7 @@ const HomePage = () => {
 
                     
 
-                    <ProductCarousel title="Top Offers" products={topOffers} viewAllLink="/products/offers" />
+                    <ProductCarousel title="Top Offers" products={Array.isArray(topOffers) ? topOffers : []} viewAllLink="/products/offers" />
 
                     {productsByCategory.map(category => (
                         <ProductCarousel
@@ -236,7 +237,7 @@ const HomePage = () => {
                         />
                     ))}
 
-                    <ProductCarousel title="Explore More" products={topOffers.sort(() => 0.5 - Math.random())} />
+                    <ProductCarousel title="Explore More" products={Array.isArray(topOffers) ? [...topOffers].sort(() => 0.5 - Math.random()) : []} />
                 </div>
             </div>
             <button id="scroll-top" title="Go to top" onClick={scrollToTop}>
