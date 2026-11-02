@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://gayatri-store.azurewebsites.net/api/:path*"
+      "destination": "https://gayatri-store-hmhzf7d5dha3ahag.centralindia-01.azurewebsites.net/api/:path*"
     },
     {
       "source": "/(.*)",
