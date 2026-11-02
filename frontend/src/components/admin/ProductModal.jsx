@@ -308,12 +308,45 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
             </div>
             
             {upImg && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <ReactCrop crop={crop} onChange={c => setCrop(c)} aspect={1}>
-                            <img src={upImg} onLoad={onImageLoad} alt="Crop me" />
-                        </ReactCrop>
-                        <button onClick={getCroppedImg} className="auth-button" style={{ marginTop: '1rem' }}>Crop</button>
+                <div 
+                    className="modal-overlay" 
+                    style={{ 
+                        zIndex: 3500, 
+                        backgroundColor: 'rgba(0, 0, 0, 0.85)' 
+                    }}
+                >
+                    <div 
+                        className="modal-content" 
+                        style={{ 
+                            maxWidth: '520px', 
+                            textAlign: 'center', 
+                            maxHeight: '90vh', 
+                            overflowY: 'auto' 
+                        }}
+                    >
+                        <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Crop Product Image</h3>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                            <ReactCrop crop={crop} onChange={c => setCrop(c)} aspect={1}>
+                                <img 
+                                    src={upImg} 
+                                    onLoad={onImageLoad} 
+                                    alt="Crop me" 
+                                    style={{ maxHeight: '55vh', maxWidth: '100%', objectFit: 'contain' }}
+                                />
+                            </ReactCrop>
+                        </div>
+                        <div className="modal-actions" style={{ justifyContent: 'center', gap: '1rem' }}>
+                            <button type="button" onClick={getCroppedImg} className="auth-button">
+                                Crop & Apply
+                            </button>
+                            <button 
+                                type="button" 
+                                onClick={() => { setUpImg(null); setCroppingFor(null); }} 
+                                className="auth-button secondary"
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

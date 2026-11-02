@@ -9,10 +9,12 @@ const AdminUserModal = ({ isOpen, onClose, onSave, mode, userData }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     
-    const [upImg, setUpImg] = useState();
+    const [upImg, setUpImg] = useState(null);
     const [crop, setCrop] = useState();
     const [croppedImageFile, setCroppedImageFile] = useState(null);
+    const [croppedPreview, setCroppedPreview] = useState(null);
     const imgRef = useRef(null);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -24,7 +26,11 @@ const AdminUserModal = ({ isOpen, onClose, onSave, mode, userData }) => {
             setPassword('');
             setConfirmPassword('');
             setCroppedImageFile(null);
+            setCroppedPreview(null);
             setUpImg(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
         }
     }, [isOpen, mode, userData]);
 
@@ -52,19 +58,38 @@ const AdminUserModal = ({ isOpen, onClose, onSave, mode, userData }) => {
         const canvas = document.createElement('canvas');
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-        const ctx = canvas.getContext('2d');
-        const pixelRatio = window.devicePixelRatio;
+        const pixelRatio = window.devicePixelRatio || 1;
         canvas.width = crop.width * pixelRatio;
         canvas.height = crop.height * pixelRatio;
+        const ctx = canvas.getContext('2d');
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(image, crop.x * scaleX, crop.y * scaleY, crop.width * scaleX, crop.height * scaleY, 0, 0, crop.width, crop.height);
+        ctx.drawImage(
+            image, 
+            crop.x * scaleX, 
+            crop.y * scaleY, 
+            crop.width * scaleX, 
+            crop.height * scaleY, 
+            0, 
+            0, 
+            crop.width, 
+            crop.height
+        );
         canvas.toBlob((blob) => {
-            if (blob) setCroppedImageFile(new File([blob], 'profile.jpg', { type: 'image/jpeg' }));
+            if (blob) {
+                const file = new File([blob], 'profile.jpg', { type: 'image/jpeg' });
+                setCroppedImageFile(file);
+                setCroppedPreview(URL.createObjectURL(blob));
+            }
             setUpImg(null);
-        }, 'image/jpeg', 1);
+        }, 'image/jpeg', 0.95);
+    };
+
+    const handleCancelCrop = () => {
+        setUpImg(null);
+        if (!croppedImageFile && fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     };
 
     const handleSubmit = (e) => {
@@ -88,28 +113,75 @@ const AdminUserModal = ({ isOpen, onClose, onSave, mode, userData }) => {
 
     return (
         <>
-            {upImg && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <ReactCrop crop={crop} onChange={c => setCrop(c)} aspect={1}>
-                            <img src={upImg} onLoad={onImageLoad} alt="Crop me" />
-                        </ReactCrop>
-                        <button onClick={getCroppedImg} className="auth-button" style={{ marginTop: '1rem' }}>Crop</button>
-                    </div>
-                </div>
-            )}
+            {/* Main Form Modal */}
             <div className="modal-overlay">
                 <div className="modal-content">
                     <h2>{mode.startsWith('edit') ? 'Update Profile' : 'Add New Admin'}</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group"><label>Profile Picture</label><input type="file" onChange={onSelectFile} accept="image/*" /></div>
-                        <div className="form-group"><label>Full Name</label><input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required /></div>
-                        <div className="form-group"><label>Email</label><input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required /></div>
-                        <div className="form-group"><label>Mobile (Optional)</label><input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} /></div>
+                        <div className="form-group">
+                            <label>Profile Picture</label>
+                            <input 
+                                ref={fileInputRef}
+                                type="file" 
+                                onChange={onSelectFile} 
+                                accept="image/*" 
+                            />
+                            {croppedPreview && (
+                                <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                    <img 
+                                        src={croppedPreview} 
+                                        alt="Preview" 
+                                        style={{ 
+                                            width: '56px', 
+                                            height: '56px', 
+                                            borderRadius: '50%', 
+                                            objectFit: 'cover', 
+                                            border: '2px solid #4CAF50',
+                                            boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                                        }} 
+                                    />
+                                    <span style={{ fontSize: '13px', color: '#2E7D32', fontWeight: 500 }}>
+                                        New profile picture ready
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                        <div className="form-group">
+                            <label>Full Name</label>
+                            <input 
+                                type="text" 
+                                value={formData.name} 
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })} 
+                                required 
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input 
+                                type="email" 
+                                value={formData.email} 
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
+                                required 
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Mobile (Optional)</label>
+                            <input 
+                                type="tel" 
+                                value={formData.phone} 
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })} 
+                            />
+                        </div>
                         {mode === 'add' && (
                             <>
-                                <div className="form-group"><label>Password</label><PasswordField value={password} onChange={(e) => setPassword(e.target.value)} /></div>
-                                <div className="form-group"><label>Confirm Password</label><PasswordField value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} /></div>
+                                <div className="form-group">
+                                    <label>Password</label>
+                                    <PasswordField value={password} onChange={(e) => setPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Confirm Password</label>
+                                    <PasswordField value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                                </div>
                             </>
                         )}
                         <div className="modal-actions">
@@ -119,6 +191,51 @@ const AdminUserModal = ({ isOpen, onClose, onSave, mode, userData }) => {
                     </form>
                 </div>
             </div>
+
+            {/* Crop Modal - Rendered on top with z-index: 3500 */}
+            {upImg && (
+                <div 
+                    className="modal-overlay" 
+                    style={{ 
+                        zIndex: 3500, 
+                        backgroundColor: 'rgba(0, 0, 0, 0.85)' 
+                    }}
+                >
+                    <div 
+                        className="modal-content" 
+                        style={{ 
+                            maxWidth: '520px', 
+                            textAlign: 'center', 
+                            maxHeight: '90vh', 
+                            overflowY: 'auto' 
+                        }}
+                    >
+                        <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Crop Profile Picture</h3>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                            <ReactCrop crop={crop} onChange={c => setCrop(c)} aspect={1} circularCrop>
+                                <img 
+                                    src={upImg} 
+                                    onLoad={onImageLoad} 
+                                    alt="Crop preview" 
+                                    style={{ maxHeight: '55vh', maxWidth: '100%', objectFit: 'contain' }}
+                                />
+                            </ReactCrop>
+                        </div>
+                        <div className="modal-actions" style={{ justifyContent: 'center', gap: '1rem' }}>
+                            <button type="button" onClick={getCroppedImg} className="auth-button">
+                                Crop & Apply
+                            </button>
+                            <button 
+                                type="button" 
+                                onClick={handleCancelCrop} 
+                                className="auth-button secondary"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };

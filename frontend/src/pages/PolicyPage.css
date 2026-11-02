@@ -6,11 +6,7 @@
 }
 
 .policy-page .container {
-    max-width: 900px;
-    background-color: #fff;
-    padding: 2rem 3rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    max-width: 1200px;
 }
 
 .policy-header {
@@ -51,7 +47,8 @@
     margin-bottom: 1rem;
 }
 
-.policy-content ul, .policy-content ol {
+.policy-content ul,
+.policy-content ol {
     margin-bottom: 1rem;
     padding-left: 1.5rem;
 }
@@ -85,12 +82,12 @@
 @media (max-width: 768px) {
     .policy-page {
         padding: 1rem 0;
-        background-color: #fff; /* Match container background on mobile */
+        background-color: #fff;
+        /* Match container background on mobile */
     }
 
     .policy-page .container {
-        padding: 1.3rem;
-        box-shadow: none;
+        padding: 1rem;
     }
 
     .policy-header {
