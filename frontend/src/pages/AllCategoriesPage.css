@@ -12,27 +12,33 @@
 
 /* Different background colors for each category section */
 .category-section:nth-child(6n+1) {
-  background-color: rgba(0, 123, 255, 0.05); /* Primary blue */
+  background-color: rgba(0, 123, 255, 0.05);
+  /* Primary blue */
 }
 
 .category-section:nth-child(6n+2) {
-  background-color: rgba(40, 167, 69, 0.05); /* Success green */
+  background-color: rgba(40, 167, 69, 0.05);
+  /* Success green */
 }
 
 .category-section:nth-child(6n+3) {
-  background-color: rgba(255, 193, 7, 0.05); /* Warning yellow */
+  background-color: rgba(255, 193, 7, 0.05);
+  /* Warning yellow */
 }
 
 .category-section:nth-child(6n+4) {
-  background-color: rgba(220, 53, 69, 0.05); /* Danger red */
+  background-color: rgba(220, 53, 69, 0.05);
+  /* Danger red */
 }
 
 .category-section:nth-child(6n+5) {
-  background-color: rgba(111, 66, 193, 0.05); /* Purple */
+  background-color: rgba(111, 66, 193, 0.05);
+  /* Purple */
 }
 
 .category-section:nth-child(6n+6) {
-  background-color: rgba(23, 162, 184, 0.05); /* Info blue */
+  background-color: rgba(23, 162, 184, 0.05);
+  /* Info blue */
 }
 
 /* Header color matching section background */
@@ -123,7 +129,7 @@
 
 .subcategory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 1.2rem;
   padding: 1.5rem;
 }
@@ -144,7 +150,7 @@
 .subcategory-item img {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border-radius: 20px 0;
   object-fit: cover;
   border: 2px solid #eee;
   transition: border-color 0.2s;
@@ -159,9 +165,6 @@
   font-size: 0.9rem;
   text-align: center;
   width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .page-status-container {
@@ -184,8 +187,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -283,7 +291,6 @@
   }
 
   .subcategory-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 0.7rem;
     padding: 1rem 0;
   }
@@ -301,7 +308,7 @@
   .category-header h2 {
     font-size: 1.2rem;
   }
-  
+
   #scroll-top {
     width: 40px;
     height: 40px;
