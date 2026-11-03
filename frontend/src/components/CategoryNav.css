@@ -9,9 +9,12 @@
 .category-nav-container::-webkit-scrollbar {
     display: none;
 }
+
 .category-nav-container {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .category-list {
@@ -33,9 +36,9 @@
 .category-item img {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
+    border-radius: 30px 0;
     object-fit: cover;
-    border: 2px solid #eee;
+    border: 1px solid #e03e3e;
     transition: border-color 0.2s;
 }
 
@@ -47,11 +50,15 @@
     margin-top: 0.5rem;
     font-size: 0.9rem;
     font-weight: 500;
-    width: 80px; /* Match image width */
+    width: 80px;
+    /* Match image width */
     text-align: center;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.category-item p:hover {
+    text-decoration: none;
 }
 
 /* View All button styles */
@@ -97,12 +104,12 @@
         font-size: 0.8rem;
         width: 60px;
     }
-    
+
     .view-all-circle {
         width: 60px;
         height: 60px;
     }
-    
+
     .view-all-circle span {
         font-size: 1.5rem;
     }

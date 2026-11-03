@@ -13,7 +13,7 @@
     background: #fff;
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     height: fit-content;
 }
 
@@ -154,9 +154,12 @@
 .sub-category-list::-webkit-scrollbar {
     display: none;
 }
+
 .sub-category-list {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .sub-category-item {
@@ -174,9 +177,9 @@
 .sub-category-image-wrapper {
     width: 70px;
     height: 70px;
-    border-radius: 50%;
+    border-radius: 20px 0;
     overflow: hidden;
-    border: 2px solid #eee;
+    border: 1px solid #eee;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
@@ -208,9 +211,6 @@
     color: #333;
     margin: 0;
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     width: 70px;
 }
 
@@ -224,6 +224,7 @@
         width: 60px;
         height: 60px;
     }
+
     .sub-category-item p {
         width: 60px;
     }
@@ -235,7 +236,8 @@
     padding: 0.4rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    height: 40px; /* Align with buttons */
+    height: 40px;
+    /* Align with buttons */
 }
 
 .sub-category-parents {

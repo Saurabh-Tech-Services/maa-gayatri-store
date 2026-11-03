@@ -40,10 +40,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
 button {
   cursor: pointer;
   font-family: inherit;
@@ -87,20 +83,20 @@ textarea {
 }
 
 .btn-danger {
-    background-color: var(--danger-color);
-    color: white;
+  background-color: var(--danger-color);
+  color: white;
 }
 
 .btn-danger:hover {
-    background-color: var(--danger-color-hover);
+  background-color: var(--danger-color-hover);
 }
 
 /* Layout */
 .container {
-    margin: 0 auto;
-    padding: 0 1rem;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 main {
-    min-height: 80vh;
+  min-height: 80vh;
 }
