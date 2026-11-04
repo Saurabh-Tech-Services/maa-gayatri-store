@@ -26,17 +26,22 @@
 
 .header-logo {
     text-decoration: none;
-    color: var(--dark-color);
-    font-size: 1.5rem;
-    font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    line-height: 1;
 }
 
 .header-logo-image {
-    width: 30px;
-    height: 30px;
+    height: 48px;
+    width: auto;
+    max-width: 170px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.header-logo:hover .header-logo-image {
+    transform: scale(1.02);
 }
 
 .header-search {
@@ -205,6 +210,10 @@
 }
 
 @media (max-width: 768px) {
+    .header-logo-image {
+        height: 38px;
+        max-width: 125px;
+    }
     .header-location,
     .profile-name,
     .desktop-login-text {
@@ -232,6 +241,10 @@
 }
 
 @media (max-width: 480px) {
+    .header-logo-image {
+        height: 32px;
+        max-width: 100px;
+    }
   .header-search {
     max-width: 8rem;
     margin: 0 0.3rem;

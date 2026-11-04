@@ -69,9 +69,8 @@ const Header = () => {
   return (
     <>
       <header className="header">
-        <Link to="/" className="header-logo">
-          <img src="/favicon.png" alt="Maa Gayatri General Store Logo" className="header-logo-image" />
-          Maa Gayatri General Store
+        <Link to="/" className="header-logo" aria-label="Maa Gayatri General Store">
+          <img src="/full-logo.png" alt="Maa Gayatri General Store" className="header-logo-image" />
         </Link>
         
         <form className="header-search" onSubmit={handleSearchSubmit}>
