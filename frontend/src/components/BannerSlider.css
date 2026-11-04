@@ -44,7 +44,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     z-index: 1;
 }
 
@@ -117,18 +116,22 @@
         min-height: 200px;
         max-height: 200px;
     }
+
     .banner-content {
         padding: 1rem 1rem;
         text-align: left;
         max-width: 90%;
         margin-right: 40%;
     }
+
     .banner-content h2 {
         font-size: 1rem;
     }
+
     .banner-content p {
-    font-size: 0.7rem;
+        font-size: 0.7rem;
     }
+
     .banner-button {
         padding: 0.5rem 1rem;
     }
