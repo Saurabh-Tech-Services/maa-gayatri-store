@@ -40,10 +40,6 @@
     transition: transform 0.2s ease;
 }
 
-.header-logo:hover .header-logo-image {
-    transform: scale(1.02);
-}
-
 .header-search {
     display: flex;
     align-items: center;
