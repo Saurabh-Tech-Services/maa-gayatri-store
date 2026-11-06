@@ -251,9 +251,29 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 });
 
-// Placeholder
+// @desc    Get single product by ID
+// @route   GET /api/products/:id
+// @access  Public
 const getProductById = asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id).populate('category', 'name');
+    const product = await Product.findById(req.params.id).populate('category', 'name slug');
+    if (product) {
+        res.json(product);
+    } else {
+        res.status(404);
+        throw new Error('Product not found');
+    }
+});
+
+// @desc    Get product by slug (or fallback to _id)
+// @route   GET /api/products/slug/:slug
+// @access  Public
+const getProductBySlug = asyncHandler(async (req, res) => {
+    const { slug } = req.params;
+    let product = await Product.findOne({ slug }).populate('category', 'name slug');
+    // Fallback: try matching by _id for old links
+    if (!product && slug.match(/^[0-9a-fA-F]{24}$/)) {
+        product = await Product.findById(slug).populate('category', 'name slug');
+    }
     if (product) {
         res.json(product);
     } else {
@@ -572,6 +592,7 @@ module.exports = {
     updateProduct, 
     deleteProduct, 
     getProductById,
+    getProductBySlug,
     bulkImportProducts,
     updateProductStatus,
     bulkUpdateProducts,

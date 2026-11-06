@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-        <Link to={`/product/${product._id}`} className="product-card">
+        <Link to={`/product/${product.slug || product._id}`} className="product-card">
             {product.stock <= 10 && <div className="stock-tag">Few left</div>}
             {product.discount >= 20 && <div className="best-deal-tag">Best Deal</div>}
             <div className="product-image-container">
@@ -60,7 +60,7 @@ const ProductCard = ({ product }) => {
                     )}
                 </div>
                 <div className="product-actions">
-                    <button className="action-btn view-btn" onClick={(e) => { e.preventDefault(); navigate(`/product/${product._id}`); }}>
+                    <button className="action-btn view-btn" onClick={(e) => { e.preventDefault(); navigate(`/product/${product.slug || product._id}`); }}>
                         <FiEye /> View
                     </button>
                     <button className="action-btn" onClick={handleAddToCart}>

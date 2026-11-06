@@ -22,7 +22,7 @@ const CategoryNav = () => {
     <div className="category-nav-container">
       <div className="category-list">
         {categories.map(category => (
-          <Link to={`/category/${category._id}`} key={category._id} className="category-item">
+          <Link to={`/category/${category.slug || category._id}`} key={category._id} className="category-item">
             <img src={category.image} alt={category.name} />
             <p>{category.name}</p>
           </Link>

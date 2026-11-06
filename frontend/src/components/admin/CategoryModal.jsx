@@ -1,5 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import '../AddressModal.css'; // Reusing styles
+
+// Mirror backend slug logic
+function generateSlug(name) {
+    return name
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
 
 const CategoryModal = ({ isOpen, onClose, onSave, category }) => {
     const [name, setName] = useState('');
@@ -45,6 +56,21 @@ const CategoryModal = ({ isOpen, onClose, onSave, category }) => {
             <div className="modal-content">
                 <h2>{category ? 'Edit Category' : 'Add New Category'}</h2>
                 <form onSubmit={handleSubmit}>
+                    {/* Live Slug Preview — above Category Name */}
+                    <div className="form-group">
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <span style={{ fontSize: '0.78rem', color: '#888', fontWeight: 400 }}>URL Slug (auto-generated)</span>
+                        </label>
+                        <div style={{
+                            display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid #f1efefff',
+                            borderRadius: '6px', padding: '0.3rem 0.5rem',
+                            fontFamily: 'monospace', fontSize: '0.85rem', color: '#bd0000ff', wordBreak: 'break-all'
+                        }}>
+                            <span style={{ color: '#aaa', flexShrink: 0 }}>/category/</span>
+                            <span>{name ? generateSlug(name) : <span style={{ color: '#ccc', fontStyle: 'italic' }}>your-category-name</span>}</span>
+                        </div>
+                    </div>
+
                     <div className="form-group">
                         <label>Category Name</label>
                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -68,7 +94,7 @@ const CategoryModal = ({ isOpen, onClose, onSave, category }) => {
                             <input type="url" value={imageUrl} onChange={(e) => { setImageUrl(e.target.value); setPreview(e.target.value); }} placeholder="https://example.com/image.jpg" />
                         </div>
                     )}
-                    
+
                     {preview && <img src={preview} alt="Preview" style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover' }} />}
                     <div className="modal-actions">
                         <button type="submit" className="auth-button">Save</button>

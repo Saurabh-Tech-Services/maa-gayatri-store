@@ -1,12 +1,41 @@
 const Category = require('../models/categoryModel');
 const asyncHandler = require('express-async-handler');
 
+// Helper: generate slug (mirrors model logic)
+function generateSlug(name) {
+    return name
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 // @desc    Get all categories
 // @route   GET /api/categories
 // @access  Public
 const getCategories = asyncHandler(async (req, res) => {
     const categories = await Category.find({});
     res.json(categories);
+});
+
+// @desc    Get category by slug (or fallback to _id)
+// @route   GET /api/categories/slug/:slug
+// @access  Public
+const getCategoryBySlug = asyncHandler(async (req, res) => {
+    const { slug } = req.params;
+    let category = await Category.findOne({ slug });
+    // Fallback: try matching by _id (for old links)
+    if (!category && slug.match(/^[0-9a-fA-F]{24}$/)) {
+        category = await Category.findById(slug);
+    }
+    if (category) {
+        res.json(category);
+    } else {
+        res.status(404);
+        throw new Error('Category not found.');
+    }
 });
 
 // @desc    Create a new category
@@ -77,6 +106,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
 
 module.exports = {
     getCategories,
+    getCategoryBySlug,
     createCategory,
     updateCategory,
     deleteCategory,

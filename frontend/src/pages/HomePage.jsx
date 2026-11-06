@@ -233,7 +233,7 @@ const HomePage = () => {
                             key={category._id}
                             title={`Best Deals in ${category.name}`}
                             products={category.products}
-                            viewAllLink={`/category/${category._id}`}
+                            viewAllLink={`/category/${category.slug || category._id}`}
                         />
                     ))}
 

@@ -11,7 +11,7 @@ import './AllCategoriesPage.css'; // For shared status styles
 import { trackProductView, trackAddToCart } from '../utils/eventTracker';
 
 const ProductDetailPage = () => {
-    const { id } = useParams();
+    const { slug } = useParams();
     const navigate = useNavigate();
     const { userInfo, setCartCount } = useAuth();
     const [product, setProduct] = useState(null);
@@ -26,18 +26,18 @@ const ProductDetailPage = () => {
     // Add useEffect to scroll to top when component mounts or product id changes
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [id]); // Depend on id so it scrolls to top when navigating between products
+    }, [slug]); // Depend on slug so it scrolls to top when navigating between products
 
     useEffect(() => {
         const fetchProduct = async () => {
             setLoading(true);
             try {
-                const { data } = await axios.get(`/api/products/${id}`);
+                const { data } = await axios.get(`/api/products/slug/${slug}`);
                 setProduct(data);
                 setMainImage(data.images[0]);
 
                 // Track product view
-                await trackProductView(id, {
+                await trackProductView(data._id, {
                     category: data.category?.name,
                     price: data.price,
                     device: /mobile/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
@@ -45,7 +45,7 @@ const ProductDetailPage = () => {
 
                 // Fetch also bought
                 try {
-                    const { data: alsoBoughtData } = await axios.get(`/api/recommendations/also-bought/${id}?limit=6`);
+                    const { data: alsoBoughtData } = await axios.get(`/api/recommendations/also-bought/${data._id}?limit=6`);
                     setAlsoBought(alsoBoughtData);
                 } catch (error) {
                     console.log('Could not fetch also-bought recommendations');
@@ -53,7 +53,7 @@ const ProductDetailPage = () => {
 
                 // Fetch also viewed
                 try {
-                    const { data: alsoViewedData } = await axios.get(`/api/recommendations/also-viewed/${id}?limit=6`);
+                    const { data: alsoViewedData } = await axios.get(`/api/recommendations/also-viewed/${data._id}?limit=6`);
                     setAlsoViewed(alsoViewedData);
                 } catch (error) {
                     console.log('Could not fetch also-viewed recommendations');
@@ -72,13 +72,15 @@ const ProductDetailPage = () => {
 
         fetchProduct();
 
+        // Track recently visited (by slug for URL building)
+
         // Track recently visited
-        if (id) {
+        if (slug) {
             const visited = JSON.parse(localStorage.getItem('recentlyVisited') || '[]');
-            const updatedVisited = [id, ...visited.filter(visitedId => visitedId !== id)].slice(0, 10);
+            const updatedVisited = [slug, ...visited.filter(v => v !== slug)].slice(0, 10);
             localStorage.setItem('recentlyVisited', JSON.stringify(updatedVisited));
         }
-    }, [id, navigate]);
+    }, [slug, navigate]);
 
     useEffect(() => {
         // Fetch recommended products for logged-in users
@@ -144,12 +146,14 @@ const ProductDetailPage = () => {
     };
 
     // Add handler for back button or provide a way to go back to category
+    // Navigate back to this product's own category using its category slug
     const handleBackToCategory = () => {
-        const lastCategoryId = sessionStorage.getItem('lastVisitedCategory');
-        if (lastCategoryId) {
-            navigate(`/category/${lastCategoryId}`);
+        if (product?.category) {
+            const catSlug = product.category.slug || product.category._id;
+            navigate(`/category/${catSlug}`);
         } else {
-            navigate('/');
+            const lastSlug = sessionStorage.getItem('lastVisitedCategory');
+            navigate(lastSlug ? `/category/${lastSlug}` : '/');
         }
     };
 

@@ -1,10 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { FiX, FiPlus } from 'react-icons/fi';
 import ReactCrop, { centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import '../AddressModal.css'; // Reusing styles
 import './ProductModal.css';
+
+// Mirror backend slug logic (backend appends last-6 chars of _id for uniqueness)
+function generateSlug(name) {
+    return name
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
 
 const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseButton = true }) => {
     const [formData, setFormData] = useState({
@@ -22,7 +33,7 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
     const [defaultPhotoPreview, setDefaultPhotoPreview] = useState('');
     const [additionalPhotoPreviews, setAdditionalPhotoPreviews] = useState([]);
     const [removedImageUrls, setRemovedImageUrls] = useState([]);
-    
+
     // Cropper state
     const [upImg, setUpImg] = useState();
     const [crop, setCrop] = useState();
@@ -148,7 +159,7 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(image, crop.x * scaleX, crop.y * scaleY, crop.width * scaleX, crop.height * scaleY, 0, 0, crop.width, crop.height);
-        
+
         canvas.toBlob((blob) => {
             if (blob) {
                 const croppedFile = new File([blob], 'cropped.jpg', { type: 'image/jpeg' });
@@ -170,7 +181,7 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
             // Store URL of removed image to delete from S3
             const imageUrl = additionalPhotoPreviews[index];
             setRemovedImageUrls(prev => [...prev, imageUrl]);
-            
+
             // Remove from preview
             setAdditionalPhotoPreviews(prev => prev.filter((_, i) => i !== index));
         } else {
@@ -187,10 +198,10 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
         Object.keys(formData).forEach(key => data.append(key, formData[key]));
         data.append('specifications', JSON.stringify(specifications.filter(s => s.key && s.value)));
         data.append('subCategory', JSON.stringify(selectedSubCategories));
-        
+
         // Add removed image URLs to formData
         data.append('removedImages', JSON.stringify(removedImageUrls));
-        
+
         // Handle default image replacement
         if (defaultPhoto) {
             if (product && product.images.length > 0) {
@@ -199,10 +210,10 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
             }
             data.append('defaultPhoto', defaultPhoto);
         }
-        
+
         // Add new additional photos
         additionalPhotos.forEach(photo => data.append('additionalPhotos', photo));
-        
+
         onSave(data, product?._id);
     };
 
@@ -215,14 +226,32 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
                         <FiX />
                     </button>
                 )}
-                
+
                 <h2>{product ? 'Edit Product' : 'Add New Product'}</h2>
                 <form onSubmit={handleSubmit}>
                     {/* Form fields */}
+                    {/* Live Slug Preview — above Product Title */}
+                    <div className="form-group">
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <span style={{ fontSize: '0.78rem', color: '#888', fontWeight: 400 }}>URL Slug (auto-generated · unique suffix added on save)</span>
+                        </label>
+                        <div style={{
+                            display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid #f1efefff',
+                            borderRadius: '6px', padding: '0.3rem 0.5rem',
+                            fontFamily: 'monospace', fontSize: '0.85rem', color: '#06bd00ff', wordBreak: 'break-all'
+                        }}>
+
+                            <span style={{ color: '#aaa', flexShrink: 0 }}>/product/</span>
+                            {formData.name
+                                ? <span>{generateSlug(formData.name)}<span style={{ color: '#bbb' }}>-xxxxxx</span></span>
+                                : <span style={{ color: '#ccc', fontStyle: 'italic' }}>your-product-name-xxxxxx</span>
+                            }
+                        </div>
+                    </div>
                     <div className="form-group"><label>Product Title</label><input type="text" name="name" value={formData.name} onChange={handleChange} required /></div>
                     <div className="form-group"><label>Description</label><textarea name="description" value={formData.description} onChange={handleChange} rows="4"></textarea></div>
                     <div className="form-group"><label>Category</label><select name="category" value={formData.category} onChange={handleChange} required><option value="">Select Category</option>{categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}</select></div>
-                    
+
                     {availableSubCategories.length > 0 && (
                         <div className="form-group">
                             <label>Sub-Categories</label>
@@ -267,7 +296,7 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
                         <input type="file" onChange={(e) => onSelectFile(e, 'default')} accept="image/*" />
                         {defaultPhotoPreview && <img src={defaultPhotoPreview} alt="Default Preview" className="default-photo-preview" />}
                     </div>
-                    
+
                     <div className="form-group">
                         <label>Additional Photos</label>
                         <div className="photo-previews-container">
@@ -281,19 +310,19 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
                                 );
                             })}
                         </div>
-                        <input 
-                            type="file" 
-                            multiple 
-                            ref={additionalPhotosInputRef} 
-                            onChange={(e) => onSelectFile(e, 'additional')} 
-                            style={{ display: 'none' }} 
+                        <input
+                            type="file"
+                            multiple
+                            ref={additionalPhotosInputRef}
+                            onChange={(e) => onSelectFile(e, 'additional')}
+                            style={{ display: 'none' }}
                             accept="image/*"
                         />
                         <button type="button" className="add-spec-btn" onClick={() => additionalPhotosInputRef.current.click()}>
                             <FiPlus /> Add More Photos
                         </button>
                     </div>
-                    
+
                     <div className="form-group"><label>Tags (comma-separated)</label><input type="text" name="tags" value={formData.tags} onChange={handleChange} /></div>
                     <div className="form-group"><label>Shipping Info</label><input type="text" name="shippingInfo" value={formData.shippingInfo} onChange={handleChange} /></div>
                     <div className="form-group"><label>Status</label><select name="status" value={formData.status} onChange={handleChange}><option value="Published">Published</option><option value="Draft">Draft</option><option value="Hidden">Hidden</option></select></div>
@@ -306,31 +335,31 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
                     </div>
                 </form>
             </div>
-            
+
             {upImg && (
-                <div 
-                    className="modal-overlay" 
-                    style={{ 
-                        zIndex: 3500, 
-                        backgroundColor: 'rgba(0, 0, 0, 0.85)' 
+                <div
+                    className="modal-overlay"
+                    style={{
+                        zIndex: 3500,
+                        backgroundColor: 'rgba(0, 0, 0, 0.85)'
                     }}
                 >
-                    <div 
-                        className="modal-content" 
-                        style={{ 
-                            maxWidth: '520px', 
-                            textAlign: 'center', 
-                            maxHeight: '90vh', 
-                            overflowY: 'auto' 
+                    <div
+                        className="modal-content"
+                        style={{
+                            maxWidth: '520px',
+                            textAlign: 'center',
+                            maxHeight: '90vh',
+                            overflowY: 'auto'
                         }}
                     >
                         <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Crop Product Image</h3>
                         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
                             <ReactCrop crop={crop} onChange={c => setCrop(c)} aspect={1}>
-                                <img 
-                                    src={upImg} 
-                                    onLoad={onImageLoad} 
-                                    alt="Crop me" 
+                                <img
+                                    src={upImg}
+                                    onLoad={onImageLoad}
+                                    alt="Crop me"
                                     style={{ maxHeight: '55vh', maxWidth: '100%', objectFit: 'contain' }}
                                 />
                             </ReactCrop>
@@ -339,9 +368,9 @@ const ProductModal = ({ isOpen, onClose, onSave, product, isSaving, showCloseBut
                             <button type="button" onClick={getCroppedImg} className="auth-button">
                                 Crop & Apply
                             </button>
-                            <button 
-                                type="button" 
-                                onClick={() => { setUpImg(null); setCroppingFor(null); }} 
+                            <button
+                                type="button"
+                                onClick={() => { setUpImg(null); setCroppingFor(null); }}
                                 className="auth-button secondary"
                             >
                                 Cancel

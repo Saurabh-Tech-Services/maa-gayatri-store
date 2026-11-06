@@ -11,7 +11,7 @@ import './CategoryPage.css';
 import './AllCategoriesPage.css';
 
 const CategoryPage = () => {
-    const { categoryId } = useParams();
+    const { slug } = useParams();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const subcategoryParam = searchParams.get('subcategory');
@@ -31,8 +31,8 @@ const CategoryPage = () => {
     const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(null);
 
     useEffect(() => {
-        if (categoryId) {
-            sessionStorage.setItem('lastVisitedCategory', categoryId);
+        if (slug) {
+            sessionStorage.setItem('lastVisitedCategory', slug);
         }
         
         const fetchInitialData = async () => {
@@ -44,12 +44,12 @@ const CategoryPage = () => {
                 ]);
                 setAllCategories(categoriesRes.data);
                 setSubCategories(subCategoriesRes.data);
-                const currentCat = categoriesRes.data.find(c => c._id === categoryId);
+                const currentCat = categoriesRes.data.find(c => c.slug === slug || c._id === slug);
                 setCategoryName(currentCat?.name || 'Category');
                 setSelectedSubCategoryId(subcategoryParam);
                 
-                if (categoriesRes.data.length > 0) {
-                    const { data } = await axios.get(`/api/products/categories?ids=${categoryId}`);
+                if (categoriesRes.data.length > 0 && currentCat) {
+                    const { data } = await axios.get(`/api/products/categories?ids=${currentCat._id}`);
                     setProducts(data);
                 }
                 
@@ -61,7 +61,7 @@ const CategoryPage = () => {
         };
         
         fetchInitialData();
-    }, [categoryId, subcategoryParam]);
+    }, [slug, subcategoryParam]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -83,9 +83,10 @@ const CategoryPage = () => {
         const fetchProducts = async () => {
             if (!allCategories.length) return;
             
-            const categoryIdsToFetch = filters.categories.length > 0 
+            const resolvedCatId = allCategories.find(c => c.slug === slug || c._id === slug)?._id;
+            const categoryIdsToFetch = filters.categories.length > 0
                 ? allCategories.filter(c => filters.categories.includes(c.name)).map(c => c._id)
-                : [categoryId];
+                : (resolvedCatId ? [resolvedCatId] : []);
 
             if (categoryIdsToFetch.length === 0) {
                 setProducts([]);
@@ -103,12 +104,12 @@ const CategoryPage = () => {
         if (allCategories.length > 0 && !loading) {
             fetchProducts();
         }
-    }, [categoryId, filters.categories, allCategories]);
+    }, [slug, filters.categories, allCategories]);
 
     const currentSubCategories = useMemo(() => {
-        if (!categoryId || subCategories.length === 0) return [];
-        return subCategories.filter(sub => sub.categories.some(cat => cat._id === categoryId));
-    }, [subCategories, categoryId]);
+        if (!slug || subCategories.length === 0) return [];
+        const resolvedId = allCategories.find(c => c.slug === slug || c._id === slug)?._id; return subCategories.filter(sub => sub.categories.some(cat => cat._id === resolvedId));
+    }, [subCategories, slug, allCategories]);
 
     const filteredProducts = useMemo(() => {
         return products.filter(product => {

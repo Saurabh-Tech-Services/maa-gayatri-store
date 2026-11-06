@@ -14,6 +14,7 @@ const {
     updateProduct,
     deleteProduct,
     getProductById,
+    getProductBySlug,
     bulkImportProducts,
     updateProductStatus,
     bulkUpdateProducts,
@@ -37,6 +38,7 @@ router.route('/bulk-update').patch(protect, admin, bulkUpdateProducts);
 router.route('/bulk-delete').post(protect, admin, bulkDeleteProducts);
 router.route('/categories').get(getProductsByMultipleCategories);
 router.route('/category/:categoryId').get(getProductsByCategory);
+router.route('/slug/:slug').get(getProductBySlug);
 router.patch('/:id/status', protect, admin, updateProductStatus);
 router.route('/:id').get(getProductById).put(protect, admin, upload.fields(imageUploadFields), updateProduct).delete(protect, admin, deleteProduct);
 

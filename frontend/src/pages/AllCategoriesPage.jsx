@@ -127,7 +127,7 @@ const AllCategoriesPage = () => {
           <div className="all-categories-container">
             {categories.map(category => (
               <div key={category._id} className="category-section">
-                <Link to={`/category/${category._id}`} className="category-header">
+                <Link to={`/category/${category.slug || category._id}`} className="category-header">
                   <img src={category.image} alt={category.name} />
                   <h2>{category.name}</h2>
                 </Link>
@@ -137,7 +137,7 @@ const AllCategoriesPage = () => {
                     getCategorySubcategories(category._id).map(subCategory => (
                       <Link 
                         key={subCategory._id} 
-                        to={`/category/${category._id}?subcategory=${subCategory._id}`} 
+                        to={`/category/${category.slug || category._id}?subcategory=${subCategory._id}`} 
                         className="subcategory-item"
                       >
                         <img src={subCategory.image} alt={subCategory.name} />

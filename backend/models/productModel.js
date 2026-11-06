@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
 
+// Generate slug from name
+function generateSlug(name) {
+    return name
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 const reviewSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     rating: { type: Number, required: true },
@@ -13,6 +24,7 @@ const specificationSchema = new mongoose.Schema({
 
 const productSchema = new mongoose.Schema({
     name: { type: String, required: true },
+    slug: { type: String, unique: true, sparse: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
     discount: { type: Number, default: 0 },
@@ -29,5 +41,16 @@ const productSchema = new mongoose.Schema({
     shippingInfo: { type: String },
     status: { type: String, enum: ['Published', 'Draft', 'Hidden'], default: 'Published' },
 }, { timestamps: true });
+
+// Auto-generate slug before save (include _id suffix for uniqueness)
+productSchema.pre('save', async function (next) {
+    if (!this.slug || this.isModified('name')) {
+        const base = generateSlug(this.name);
+        // Append short id to guarantee uniqueness across same-name products
+        const shortId = this._id.toString().slice(-6);
+        this.slug = `${base}-${shortId}`;
+    }
+    next();
+});
 
 module.exports = mongoose.model('Product', productSchema);

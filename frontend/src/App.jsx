@@ -70,10 +70,10 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order/:id" element={<OrderSuccessPage />} />
-          <Route path="/category/:categoryId" element={<CategoryPage />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/products/offers" element={<TopOffersPage />} />
           <Route path="/all-categories" element={<AllCategoriesPage />} />
-          <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/product/:slug" element={<ProductDetailPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
