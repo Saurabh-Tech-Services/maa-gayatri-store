@@ -7,6 +7,7 @@ import FilterSidebar from '../components/FilterSidebar';
 import { FiFilter, FiX } from 'react-icons/fi';
 import { FaArrowUp } from 'react-icons/fa';
 import Meta from '../components/Meta';
+import StructuredData from '../components/StructuredData';
 import './CategoryPage.css';
 import './AllCategoriesPage.css';
 
@@ -151,6 +152,14 @@ const CategoryPage = () => {
                 description={`Shop for ${categoryName} on Maa Gayatri General Store. Find great deals and a wide selection of products.`}
                 keywords={`${categoryName}, online shopping, products`}
             />
+            <StructuredData schema={{
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://maa-gayatri-store.vercel.app/" },
+                    { "@type": "ListItem", "position": 2, "name": categoryName, "item": `https://maa-gayatri-store.vercel.app/category/${slug}` }
+                ]
+            }} />
             <div className="container">
                 <h1 className="category-page-title">{categoryName}</h1>
 

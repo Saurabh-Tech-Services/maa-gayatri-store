@@ -1,0 +1,55 @@
+# Maa Gayatri General Store — AI Discovery File
+# https://llmstxt.org
+
+# Business
+Name: Maa Gayatri General Store
+Type: Grocery store, general store, kirana shop, FMCG retail
+Established: 1992
+Owner: Shatrudhna Chaudhari
+
+# Location
+Address: NH 376, High School Road, Tribeniganj, Supaul, Bihar, India – 852139
+Locality: Tribeniganj
+District: Supaul
+State: Bihar
+Country: India
+
+# Contact
+Phone: +91 90067 41663
+WhatsApp: +91 90067 41663
+Email: support@maagayatristore.com
+Website: https://maa-gayatri-store.vercel.app
+Google Maps: https://share.google/tBXNALgEeSIAlHOWa
+
+# Hours
+Monday to Sunday: 8:00 AM to 10:00 PM (IST)
+
+# Products stocked
+Grains and pulses: rice, wheat atta, dal, chana, moong, urad, rajma, besan
+Oils and ghee: mustard oil, groundnut oil, refined oil, desi ghee, vanaspati
+Masala and spices: haldi, mirch, dhania, jeera, garam masala, blended masalas
+Dry fruits: almonds (badam), cashews (kaju), raisins (kishmish), walnuts (akhrot), pistachios (pista), dates (khajoor), peanuts (moongphali), fox nuts (makhana)
+Biscuits and snacks: Parle-G, Marie Gold, Britannia, namkeen, chips, wafers
+Beverages: tea, coffee, juices, cold drinks, health drinks
+Personal care: soap, shampoo, toothpaste, face wash, body lotion, hair oil
+Household and cleaning: detergent, dish wash, floor cleaner, toilet cleaner, air freshener
+Baby care: baby food, glucose, ORS, nutrition products
+Pooja samagri: agarbatti, dhoop, camphor (kapoor), pooja oil, diya oil, gangajal, roli, kumkum, sindoor, supari, kalawa (mauli thread), coconut (nariyal)
+Vegetables (limited): potato (aalu), onion (piyaj), garlic (lahsun), dry bay leaf (tej patta), dry red chilli
+
+# Brands stocked
+Tata (Tata Salt, Tata Tea, Tata Sampann), Aashirvaad (ITC), Fortune (Adani Wilmar),
+Amul, Britannia, Parle, Nestlé (Maggi, Nescafé, Munch), Dettol (Reckitt),
+Colgate, HUL (Surf Excel, Rin, Vim, Lifebuoy, Lux, Lipton), Dabur (Real Juice, Hajmola, Dabur Honey),
+Haldiram's, Everest Masala, MDH Masala, Saffola (Marico), Patanjali,
+Cadbury (Mondelez), Pillsbury, Whole Farm, Catch Masala, Godrej (Good Knight, Ezee),
+Bajaj (Almond Drop oil)
+
+# Service area
+Walk-in and in-store pickup only. Serving customers from:
+Tribeniganj town, Daparkha, Medhiya, High School Road, Purani Bank Chowk,
+Bus Stand area, Partapur, Patarghatti, Laharniya — all in Tribeniganj, Supaul district, Bihar.
+
+# Language
+Hindi, Maithili, English
+

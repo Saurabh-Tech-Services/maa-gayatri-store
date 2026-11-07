@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { formatCurrency } from '../utils/formatCurrency';
 import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
+import StructuredData from '../components/StructuredData';
 import './ProductDetailPage.css';
 import './AllCategoriesPage.css'; // For shared status styles
 import { trackProductView, trackAddToCart } from '../utils/eventTracker';
@@ -180,6 +181,39 @@ const ProductDetailPage = () => {
                 ogImage={product.images[0]}
                 ogType="product"
             />
+            <StructuredData schema={[
+                {
+                    "@context": "https://schema.org",
+                    "@type": "Product",
+                    "name": product.name,
+                    "description": product.description,
+                    "image": product.images,
+                    "sku": product._id,
+                    "brand": product.brand ? { "@type": "Brand", "name": product.brand } : undefined,
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "INR",
+                        "price": (product.price - product.price * product.discount / 100).toFixed(2),
+                        "availability": product.stock > 0
+                            ? "https://schema.org/InStock"
+                            : "https://schema.org/OutOfStock",
+                        "seller": {
+                            "@type": "Organization",
+                            "name": "Maa Gayatri General Store"
+                        },
+                        "url": `https://maa-gayatri-store.vercel.app/product/${product.slug}`
+                    }
+                },
+                {
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://maa-gayatri-store.vercel.app/" },
+                        { "@type": "ListItem", "position": 2, "name": product.category?.name || "Category", "item": `https://maa-gayatri-store.vercel.app/category/${product.category?.slug || product.category?._id}` },
+                        { "@type": "ListItem", "position": 3, "name": product.name, "item": `https://maa-gayatri-store.vercel.app/product/${product.slug}` }
+                    ]
+                }
+            ]} />
             <div className="container">
                 {/* Add back button to return to category */}
                 <button 

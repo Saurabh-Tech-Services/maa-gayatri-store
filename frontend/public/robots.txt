@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Block admin, auth, and transactional pages
+Disallow: /admin/
+Disallow: /api/
+Disallow: /cart
+Disallow: /checkout
+Disallow: /profile
+Disallow: /payment/
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password/
+Disallow: /order/
+
+Sitemap: https://maa-gayatri-store.vercel.app/sitemap.xml
+Sitemap: https://gayatri-store-hmhzf7d5dha3ahag.centralindia-01.azurewebsites.net/api/sitemap
+

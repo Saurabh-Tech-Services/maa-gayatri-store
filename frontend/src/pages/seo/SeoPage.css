@@ -1,0 +1,330 @@
+/* ══════════════════════════════════════════════════════
+   SEO Landing Pages — Shared Styles
+   Maa Gayatri General Store
+   ══════════════════════════════════════════════════════ */
+
+/* ── Page wrapper ─────────────────────────────────────── */
+.seo-page {
+    color: #333;
+    padding: 0 0 3rem 0;
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.seo-hero {
+    background: linear-gradient(135deg, #1a5276 0%, #2e86c1 60%, #1a5276 100%);
+    color: #fff;
+    padding: 5rem 1.5rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.seo-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+.seo-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+}
+.seo-hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+.seo-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #fff;
+    padding: 0.28rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(4px);
+}
+.seo-hero h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+}
+.seo-hero p.seo-hero-desc {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 620px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.65;
+}
+.seo-hero-address {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.5rem 1.1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+    backdrop-filter: blur(4px);
+}
+.seo-hero-cta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.seo-btn-primary {
+    background: #fff;
+    color: #1a5276;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+}
+.seo-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+.seo-btn-secondary {
+    background: transparent;
+    color: #fff;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.7);
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.seo-btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+/* ── Section wrappers ─────────────────────────────────── */
+.seo-section { padding: 3.5rem 1.5rem; }
+.seo-section-alt { background: #f8f9fa; }
+.seo-section-dark { background: #1a5276; color: #fff; }
+.seo-section-inner { max-width: 1100px; margin: 0 auto; }
+.seo-section-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #1a3a5c;
+}
+.seo-section-dark .seo-section-title { color: #fff; }
+.seo-section-subtitle {
+    font-size: 1.05rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+    max-width: 640px;
+}
+.seo-section-dark .seo-section-subtitle { color: rgba(255,255,255,0.75); }
+
+/* ── Info cards grid ──────────────────────────────────── */
+.seo-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+}
+.seo-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.75rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border-left: 4px solid #2e86c1;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.seo-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.seo-card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+.seo-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: #1a3a5c; }
+.seo-card p { font-size: 0.95rem; color: #666; line-height: 1.6; margin: 0; }
+
+/* ── Product category tiles ───────────────────────────── */
+.seo-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+.seo-item-tile {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border: 1px solid #e8eef4;
+    transition: border-color 0.2s, transform 0.2s;
+}
+.seo-item-tile:hover { border-color: #2e86c1; transform: translateY(-2px); }
+.seo-item-tile-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.seo-item-tile h4 { font-size: 0.95rem; font-weight: 600; margin: 0 0 0.3rem; color: #1a3a5c; }
+.seo-item-tile p { font-size: 0.82rem; color: #777; margin: 0; }
+
+/* ── Store info box ───────────────────────────────────── */
+.seo-store-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+@media (max-width: 680px) { .seo-store-box { grid-template-columns: 1fr; } }
+.seo-store-detail { display: flex; align-items: flex-start; gap: 0.9rem; margin-bottom: 1.1rem; }
+.seo-store-detail-icon { font-size: 1.3rem; color: #2e86c1; flex-shrink: 0; margin-top: 0.1rem; }
+.seo-store-detail-text { font-size: 0.95rem; line-height: 1.6; color: #444; }
+.seo-store-detail-text strong { color: #1a3a5c; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.seo-map-link {
+    display: inline-block;
+    margin-top: 1.25rem;
+    background: #1a5276;
+    color: #fff;
+    padding: 0.65rem 1.4rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+.seo-map-link:hover { background: #154360; }
+
+/* ── Locality list ────────────────────────────────────── */
+.seo-locality-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.seo-locality-list li {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #fff;
+}
+.seo-locality-list li::before { content: '📍'; font-size: 1rem; }
+
+/* ── FAQ ──────────────────────────────────────────────── */
+.seo-faq-list { max-width: 800px; margin: 0 auto; }
+.seo-faq-item {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+.seo-faq-q {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 1.2rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a3a5c;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    transition: background 0.2s;
+}
+.seo-faq-q:hover { background: #f0f6fb; }
+.seo-faq-q .faq-arrow { font-size: 0.8rem; transition: transform 0.2s; }
+.seo-faq-q.open .faq-arrow { transform: rotate(180deg); }
+.seo-faq-a {
+    padding: 0 1.5rem 1.2rem;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+    border-top: 1px solid #eef2f7;
+}
+
+/* ── CTA section ──────────────────────────────────────── */
+.seo-cta-section {
+    background: linear-gradient(135deg, #2e86c1, #1a5276);
+    color: #fff;
+    text-align: center;
+    padding: 4rem 1.5rem;
+}
+.seo-cta-section h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; }
+.seo-cta-section p { font-size: 1.05rem; opacity: 0.9; margin-bottom: 2rem; max-width: 520px; margin-left: auto; margin-right: auto; }
+.seo-cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.seo-whatsapp-btn {
+    background: #25d366;
+    color: #fff;
+    padding: 0.8rem 1.75rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.seo-whatsapp-btn:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+/* ── Disclaimer ───────────────────────────────────────── */
+.seo-disclaimer {
+    background: #fff8e1;
+    border-left: 4px solid #f39c12;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+    color: #7d6608;
+    margin: 1.5rem 0;
+    line-height: 1.6;
+}
+
+/* ── Brands strip ─────────────────────────────────────── */
+.seo-brands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+    align-items: center;
+}
+.seo-brand-chip {
+    background: #fff;
+    border: 1px solid #dde6ef;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a3a5c;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .seo-hero h1 { font-size: 1.8rem; }
+    .seo-section-title { font-size: 1.5rem; }
+    .seo-cards-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+    .seo-hero h1 { font-size: 1.5rem; }
+    .seo-cards-grid { grid-template-columns: 1fr; }
+    .seo-items-grid { grid-template-columns: 1fr 1fr; }
+}

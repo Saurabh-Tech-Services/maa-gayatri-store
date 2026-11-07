@@ -4,10 +4,10 @@ import { Helmet } from 'react-helmet-async';
 const Meta = ({ title, description, keywords, author, canonical, ogImage, ogType, twitterCard, noIndex }) => {
     const siteUrl = window.location.origin;
     const currentUrl = window.location.href;
-    const defaultTitle = 'Maa Gayatri General Store - Your One-Stop Online Shop';
-    const defaultDescription = 'Discover a wide range of products at Maa Gayatri General Store. We offer the best prices on electronics, fashion, home goods, and more. Shop now for great deals!';
-    const defaultKeywords = 'e-commerce, online shopping, electronics, fashion, home goods, deals, discounts';
-    const defaultAuthor = 'Saurabh Kumar';
+    const defaultTitle = 'Grocery Store in Tribeniganj, Supaul | Maa Gayatri General Store';
+    const defaultDescription = 'Maa Gayatri General Store — your trusted kirana and general store in Tribeniganj, Supaul, Bihar. Shop groceries, spices, dry fruits, pooja items, snacks, personal care and daily essentials.';
+    const defaultKeywords = 'grocery store Tribeniganj, kirana store Tribeniganj, general store Supaul Bihar, daily essentials Tribeniganj, Maa Gayatri General Store, spices dry fruits pooja items Tribeniganj';
+    const defaultAuthor = 'Shatrudhna Chaudhari';
     const defaultOgImage = `${siteUrl}/og.png`;
     const defaultOgType = 'website';
     const defaultTwitterCard = 'summary_large_image';
