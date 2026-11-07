@@ -36,8 +36,10 @@ app.use('/api/offers', require('./routes/offerRoutes'));
 app.use('/api/email', require('./routes/emailRoutes'));
 const eventRoutes = require('./routes/eventRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
+const sitemapRoutes = require('./routes/sitemapRoutes');
 app.use('/api/events', eventRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+app.use('/api/sitemap', sitemapRoutes);
 
 // --- Error Handling Middleware ---
 // Multer Error Handler
