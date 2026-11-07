@@ -37,6 +37,18 @@ axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || '/';
 // Placeholders for new pages
 const PlaceholderPage = ({ title }) => <div className="container" style={{padding: '2rem 0'}}><h1>{title}</h1><p>Content for this page will be added soon.</p></div>;
 
+// Brand Pages
+import BrandsPage from './pages/BrandsPage';
+import BrandDetailPage from './pages/brands/BrandDetailPage';
+
+// SEO Landing Pages
+import GroceryStoreTribeniganj from './pages/seo/GroceryStoreTribeniganj';
+import DailyNeedsTribeniganj from './pages/seo/DailyNeedsTribeniganj';
+import PoojaItemsTribeniganj from './pages/seo/PoojaItemsTribeniganj';
+import DryFruitsTribeniganj from './pages/seo/DryFruitsTribeniganj';
+import VegetablesTribeniganj from './pages/seo/VegetablesTribeniganj';
+import ServiceAreas from './pages/seo/ServiceAreas';
+
 // Layouts and Route Protection
 import RootLayout from './layouts/RootLayout';
 import AdminLayout from './layouts/AdminLayout';
@@ -82,6 +94,19 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/return-policy" element={<ReturnPolicyPage />} />
           <Route path="/cancellation-policy" element={<CancellationPolicyPage />} />
+
+
+          {/* Brand Pages */}
+          <Route path="/brands" element={<BrandsPage />} />
+          <Route path="/brands/:slug" element={<BrandDetailPage />} />
+
+          {/* SEO Landing Pages */}
+          <Route path="/grocery-store-tribeniganj" element={<GroceryStoreTribeniganj />} />
+          <Route path="/daily-needs-store-tribeniganj" element={<DailyNeedsTribeniganj />} />
+          <Route path="/pooja-items-tribeniganj" element={<PoojaItemsTribeniganj />} />
+          <Route path="/dry-fruits-tribeniganj" element={<DryFruitsTribeniganj />} />
+          <Route path="/vegetables-tribeniganj" element={<VegetablesTribeniganj />} />
+          <Route path="/service-areas" element={<ServiceAreas />} />
           <Route path="/cookie-policy" element={<CookiePolicyPage />} />
           <Route path="/payment/success" element={<PaymentSuccessPage />} />
           <Route path="/payment/failure" element={<PaymentFailurePage />} />

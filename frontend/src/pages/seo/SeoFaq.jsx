@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 /**
- * SeoFaq — accordion FAQ for SEO landing pages.
+ * SeoFaq -- accordion FAQ for SEO landing pages.
  * Props: items = [{ q: string, a: string }]
  */
 const SeoFaq = ({ items }) => {
@@ -26,3 +26,4 @@ const SeoFaq = ({ items }) => {
 };
 
 export default SeoFaq;
+

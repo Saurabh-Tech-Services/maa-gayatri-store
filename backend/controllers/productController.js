@@ -581,6 +581,32 @@ const bulkDeleteProducts = asyncHandler(async (req, res) => {
     }
 });
 
+
+// @desc    Get all distinct brands with product counts
+// @route   GET /api/products/brands
+// @access  Public
+const getBrands = asyncHandler(async (req, res) => {
+    const brands = await Product.aggregate([
+        { $match: { status: 'Published', brand: { $ne: null, $ne: '' } } },
+        { $group: { _id: '$brand', count: { $sum: 1 } } },
+        { $sort: { count: -1 } }
+    ]);
+    res.json(brands.map(b => ({ name: b._id, count: b.count })));
+});
+
+// @desc    Get products by brand name
+// @route   GET /api/products/brand/:brandName
+// @access  Public
+const getProductsByBrand = asyncHandler(async (req, res) => {
+    const brandName = decodeURIComponent(req.params.brandName);
+    const escaped = brandName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const products = await Product.find({
+        brand: { $regex: new RegExp('^' + escaped + '$', 'i') },
+        status: 'Published'
+    }).populate('category', 'name slug');
+    res.json(products);
+});
+
 module.exports = { 
     searchProducts, 
     getAdminProducts, 
@@ -596,5 +622,7 @@ module.exports = {
     bulkImportProducts,
     updateProductStatus,
     bulkUpdateProducts,
-    bulkDeleteProducts
+    bulkDeleteProducts,
+    getBrands,
+    getProductsByBrand
 };

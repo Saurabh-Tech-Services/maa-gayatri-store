@@ -1,0 +1,20 @@
+/* ══════════════════════════════════════════════════════
+   Haldiram's Brand Page — Custom Theme
+   ══════════════════════════════════════════════════════ */
+
+.brand-theme-haldirams .brand-detail-hero {
+    background: linear-gradient(135deg, #1b5e20 0%, #388e3c 50%, #2e7d32 100%);
+}
+.brand-theme-haldirams .brand-product-final {
+    color: #1b5e20;
+}
+.brand-theme-haldirams .brand-product-card:hover {
+    border-color: #388e3c;
+}
+.brand-theme-haldirams .brand-back-link {
+    color: #1b5e20;
+}
+.brand-theme-haldirams .brand-product-off {
+    background: #1b5e20;
+}
+

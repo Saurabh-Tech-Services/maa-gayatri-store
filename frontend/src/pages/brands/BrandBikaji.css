@@ -1,0 +1,20 @@
+/* ══════════════════════════════════════════════════════
+   Bikaji Brand Page — Custom Theme
+   ══════════════════════════════════════════════════════ */
+
+.brand-theme-bikaji .brand-detail-hero {
+    background: linear-gradient(135deg, #b71c1c 0%, #e53935 50%, #c62828 100%);
+}
+.brand-theme-bikaji .brand-product-final {
+    color: #b71c1c;
+}
+.brand-theme-bikaji .brand-product-card:hover {
+    border-color: #e53935;
+}
+.brand-theme-bikaji .brand-back-link {
+    color: #b71c1c;
+}
+.brand-theme-bikaji .brand-product-off {
+    background: #b71c1c;
+}
+
