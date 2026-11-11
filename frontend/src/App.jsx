@@ -65,6 +65,7 @@ import AdminBannerPage from './pages/admin/AdminBannerPage';
 import AdminProfilePage from './pages/admin/AdminProfilePage';
 import AdminSubCategoryPage from './pages/admin/AdminSubCategoryPage';
 import AdminPromotionalMailPage from './pages/admin/AdminPromotionalMailPage';
+import AdminBrandPage from './pages/admin/AdminBrandPage';
 
 function App() {
   return (
@@ -121,6 +122,7 @@ function App() {
             <Route path="/admin/products" element={<AdminProductPage />} />
             <Route path="/admin/categories" element={<AdminCategoryPage />} />
             <Route path="/admin/subcategories" element={<AdminSubCategoryPage />} />
+            <Route path="/admin/brands" element={<AdminBrandPage />} />
             <Route path="/admin/orders" element={<AdminOrderPage />} />
             <Route path="/admin/users" element={<AdminUserPage />} />
             <Route path="/admin/banners" element={<AdminBannerPage />} />

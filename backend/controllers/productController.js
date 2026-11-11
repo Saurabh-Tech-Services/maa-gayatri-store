@@ -582,6 +582,11 @@ const bulkDeleteProducts = asyncHandler(async (req, res) => {
 });
 
 
+// NOTE: getBrands and getProductsByBrand below are kept for backward compatibility.
+// The Brand model (brandModel.js) and /api/brands routes now provide proper brand
+// management with CRUD operations and logo support. These aggregation-based
+// endpoints remain available for any existing consumers.
+
 // @desc    Get all distinct brands with product counts
 // @route   GET /api/products/brands
 // @access  Public

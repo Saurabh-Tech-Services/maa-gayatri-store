@@ -10,7 +10,7 @@ import { FaArrowUp } from 'react-icons/fa';
 import './HomePage.css';
 import './AllCategoriesPage.css'; // For shared status styles
 import { fetchWithCache } from '../utils/cacheUtils';
-import { trackSearch } from '../utils/eventTracker';
+import { trackSearch } from '../utils/storeMetrics';
 
 const HomePage = () => {
     const { userInfo } = useAuth();

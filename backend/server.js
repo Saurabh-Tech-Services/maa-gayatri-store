@@ -40,6 +40,7 @@ const sitemapRoutes = require('./routes/sitemapRoutes');
 app.use('/api/events', eventRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/sitemap', sitemapRoutes);
+app.use('/api/brands', require('./routes/brandRoutes'));
 
 // --- Error Handling Middleware ---
 // Multer Error Handler

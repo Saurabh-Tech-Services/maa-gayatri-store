@@ -60,6 +60,7 @@ const AdminSidebar = ({ isOpen, sidebarRef }) => {
                     <li><NavLink to="/admin/orders">Orders <span className="sidebar-count-badge">{counts?.orders}</span></NavLink></li>
                     <li><NavLink to="/admin/products">Products <span className="sidebar-count-badge">{counts?.products}</span></NavLink></li>
                     <li><NavLink to="/admin/categories">Categories <span className="sidebar-count-badge">{counts?.categories}</span></NavLink></li>
+                    <li><NavLink to="/admin/brands">Brands <span className="sidebar-count-badge">{counts?.brands}</span></NavLink></li>
                     <li><NavLink to="/admin/subcategories">Sub Categories <span className="sidebar-count-badge">{counts?.subCategories}</span></NavLink></li>
                     <li><NavLink to="/admin/offers">Offers <span className="sidebar-count-badge">{counts?.offers}</span></NavLink></li>
                     <li><NavLink to="/admin/banners">Banners <span className="sidebar-count-badge">{counts?.banners}</span></NavLink></li>

@@ -7,38 +7,29 @@ import './BrandsPage.css';
 
 const SITE = 'https://maa-gayatri-store.vercel.app';
 
-// Map brand names to their logo files in /brands/
-const BRAND_LOGOS = {
-    'Bikaji':     '/brands/bikaji.webp',
-    'Bikano':     '/brands/bikano.webp',
-    'Britannia':  '/brands/Britannia.webp',
-    'Dabur':      '/brands/dabur.webp',
-    'Fortune':    '/brands/fortune.webp',
-    "Haldiram's": '/brands/haldiram.webp',
-    'Parle':      '/brands/parle.webp',
-    'Patanjali':  '/brands/patanjali.webp',
-    'Tata':       '/brands/tata.webp',
-};
-
-function brandSlug(name) {
-    return name
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
-
 const BrandsPage = () => {
     const [brands, setBrands] = useState([]);
+    const [productCounts, setProductCounts] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchBrands = async () => {
             try {
-                const { data } = await axios.get('/api/products/brands');
-                setBrands(Array.isArray(data) ? data : []);
+                // Fetch brands from Brand model + product counts from aggregation
+                const [brandsRes, countsRes] = await Promise.all([
+                    axios.get('/api/brands'),
+                    axios.get('/api/products/brands')
+                ]);
+                const brandsList = Array.isArray(brandsRes.data) ? brandsRes.data : [];
+                setBrands(brandsList);
+
+                // Build a name -> count map from the aggregation endpoint
+                const countsList = Array.isArray(countsRes.data) ? countsRes.data : [];
+                const countsMap = {};
+                countsList.forEach(item => {
+                    countsMap[item.name] = item.count || 0;
+                });
+                setProductCounts(countsMap);
             } catch (err) {
                 console.error('Could not fetch brands:', err);
             } finally {
@@ -91,17 +82,16 @@ const BrandsPage = () => {
                                 </p>
                                 <div className="brands-grid">
                                     {brands.map((brand) => {
-                                        const logo = BRAND_LOGOS[brand.name];
-                                        const slug = brandSlug(brand.name);
+                                        const count = productCounts[brand.name] || 0;
                                         return (
                                             <Link
-                                                key={brand.name}
-                                                to={`/brands/${slug}`}
+                                                key={brand._id}
+                                                to={`/brands/${brand.slug}`}
                                                 className="brand-card"
                                             >
-                                                {logo ? (
+                                                {brand.logo ? (
                                                     <img
-                                                        src={logo}
+                                                        src={brand.logo}
                                                         alt={brand.name}
                                                         className="brand-card-logo"
                                                         onError={(e) => {
@@ -112,13 +102,13 @@ const BrandsPage = () => {
                                                 ) : null}
                                                 <div
                                                     className="brand-card-fallback"
-                                                    style={logo ? { display: 'none' } : {}}
+                                                    style={brand.logo ? { display: 'none' } : {}}
                                                 >
                                                     {brand.name.charAt(0)}
                                                 </div>
                                                 <h3>{brand.name}</h3>
                                                 <p className="brand-card-count">
-                                                    {brand.count} product{brand.count !== 1 ? 's' : ''}
+                                                    {count} product{count !== 1 ? 's' : ''}
                                                 </p>
                                             </Link>
                                         );
@@ -134,4 +124,3 @@ const BrandsPage = () => {
 };
 
 export default BrandsPage;
-

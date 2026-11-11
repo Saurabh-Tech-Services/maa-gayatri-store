@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { FiEye, FiShoppingCart } from 'react-icons/fi';
 import { formatCurrency } from '../utils/formatCurrency';
-import { trackAddToCart } from '../utils/eventTracker';
+import { trackAddToCart } from '../utils/storeMetrics';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {

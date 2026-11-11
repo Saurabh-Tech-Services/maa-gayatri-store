@@ -12,59 +12,36 @@ import './BrandHaldirams.css';
 
 const SITE = 'https://maa-gayatri-store.vercel.app';
 
-// Brand config: slug -> { displayName, logo, description, themeClass }
-const BRAND_CONFIG = {
-    'bikaji': {
-        displayName: 'Bikaji',
-        logo: '/brands/bikaji.webp',
-        description: 'Bikaji is one of India\'s leading snack and namkeen manufacturers. Known for bhujia, namkeen, sweets, papad and packaged snacks — all available at Maa Gayatri General Store, Tribeniganj.',
-        themeClass: 'brand-theme-bikaji',
-        seoTitle: 'Bikaji Products in Tribeniganj | Maa Gayatri General Store',
-        seoDesc: 'Buy Bikaji bhujia, namkeen, sweets and snacks at Maa Gayatri General Store, NH 376, Tribeniganj, Supaul, Bihar. Check available products and prices.',
-        seoKeywords: 'Bikaji Tribeniganj, Bikaji namkeen Tribeniganj, Bikaji bhujia shop Supaul Bihar, Bikaji products near me',
-    },
-    'haldirams': {
-        displayName: "Haldiram's",
-        logo: '/brands/haldiram.webp',
-        description: "Haldiram's is India's most popular brand for namkeen, snacks, sweets and ready-to-eat foods. Find Haldiram's products at fair prices at Maa Gayatri General Store, Tribeniganj.",
-        themeClass: 'brand-theme-haldirams',
-        seoTitle: "Haldiram's Products in Tribeniganj | Maa Gayatri General Store",
-        seoDesc: "Buy Haldiram's namkeen, bhujia, sweets and snacks at Maa Gayatri General Store, NH 376, Tribeniganj, Supaul, Bihar. Genuine products at honest prices.",
-        seoKeywords: "Haldiram's Tribeniganj, Haldiram namkeen Tribeniganj, Haldiram bhujia shop Supaul Bihar, Haldiram's products near me",
-    },
-};
-
-// Map slug to actual brand name used in DB
-const SLUG_TO_BRAND = {
-    'bikaji': 'Bikaji',
-    'haldirams': "Haldiram's",
-};
-
 const BrandDetailPage = () => {
     const { slug } = useParams();
+    const [brand, setBrand] = useState(null);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [sort, setSort] = useState('name-asc');
 
-    const config = BRAND_CONFIG[slug];
-    const brandName = SLUG_TO_BRAND[slug] || slug;
-
     useEffect(() => {
         window.scrollTo(0, 0);
-        const fetchProducts = async () => {
+        const fetchBrandAndProducts = async () => {
             setLoading(true);
             try {
-                const encoded = encodeURIComponent(brandName);
-                const { data } = await axios.get(`/api/products/brand/${encoded}`);
-                setProducts(Array.isArray(data) ? data : []);
+                // Fetch brand info from Brand model
+                const { data: brandData } = await axios.get(`/api/brands/slug/${slug}`);
+                setBrand(brandData);
+
+                // Fetch products by brand name
+                const encoded = encodeURIComponent(brandData.name);
+                const { data: productsData } = await axios.get(`/api/products/brand/${encoded}`);
+                setProducts(Array.isArray(productsData) ? productsData : []);
             } catch (err) {
-                console.error('Could not fetch brand products:', err);
+                console.error('Could not fetch brand or products:', err);
+                setBrand(null);
+                setProducts([]);
             } finally {
                 setLoading(false);
             }
         };
-        fetchProducts();
-    }, [slug, brandName]);
+        fetchBrandAndProducts();
+    }, [slug]);
 
     const sortedProducts = useMemo(() => {
         const sorted = [...products];
@@ -86,8 +63,8 @@ const BrandDetailPage = () => {
         return sorted;
     }, [products, sort]);
 
-    const displayName = config?.displayName || brandName;
-    const themeClass = config?.themeClass || '';
+    const displayName = brand?.name || slug;
+    const themeClass = `brand-theme-${slug}`;
 
     const breadcrumb = {
         "@context": "https://schema.org",
@@ -102,9 +79,9 @@ const BrandDetailPage = () => {
     return (
         <>
             <Meta
-                title={config?.seoTitle || `${displayName} Products | Maa Gayatri General Store`}
-                description={config?.seoDesc || `Buy ${displayName} products at Maa Gayatri General Store, Tribeniganj, Supaul, Bihar.`}
-                keywords={config?.seoKeywords || `${displayName} Tribeniganj, ${displayName} products Supaul Bihar`}
+                title={`${displayName} Products in Tribeniganj | Maa Gayatri General Store`}
+                description={`Buy ${displayName} products at Maa Gayatri General Store, NH 376, Tribeniganj, Supaul, Bihar. Check available products and prices.`}
+                keywords={`${displayName} Tribeniganj, ${displayName} products Supaul Bihar, ${displayName} shop near me`}
                 canonical={`${SITE}/brands/${slug}`}
             />
             <StructuredData schema={breadcrumb} />
@@ -112,15 +89,15 @@ const BrandDetailPage = () => {
             <div className={`brand-detail-page ${themeClass}`}>
                 {/* Back link */}
                 <Link to="/brands" className="brand-back-link">
-                    ← All Brands
+                    &#8592; All Brands
                 </Link>
 
                 {/* Hero */}
                 <section className="brand-detail-hero">
                     <div className="brand-detail-hero-inner">
-                        {config?.logo ? (
+                        {brand?.logo ? (
                             <img
-                                src={config.logo}
+                                src={brand.logo}
                                 alt={displayName}
                                 className="brand-detail-logo"
                                 onError={(e) => { e.target.style.display = 'none'; }}
@@ -131,7 +108,7 @@ const BrandDetailPage = () => {
                             </div>
                         )}
                         <h1>{displayName} at Maa Gayatri General Store</h1>
-                        <p>{config?.description || `Shop ${displayName} products at Maa Gayatri General Store, NH 376, High School Road, Tribeniganj, Supaul, Bihar.`}</p>
+                        <p>Shop {displayName} products at Maa Gayatri General Store, NH 376, High School Road, Tribeniganj, Supaul, Bihar.</p>
                         <div className="brand-product-count">
                             {products.length} product{products.length !== 1 ? 's' : ''} available
                         </div>
@@ -145,11 +122,11 @@ const BrandDetailPage = () => {
                             <div className="preloader"><p>Loading products...</p></div>
                         ) : products.length === 0 ? (
                             <div className="brand-empty">
-                                <div className="brand-empty-icon">📦</div>
+                                <div className="brand-empty-icon">&#128230;</div>
                                 <h3>No Products Found</h3>
                                 <p>We currently have no {displayName} products listed online. Visit our store or call +91 90067 41663 to check in-store availability.</p>
                                 <Link to="/brands" className="brand-back-link" style={{ display: 'inline-flex', marginLeft: 0 }}>
-                                    ← Browse All Brands
+                                    &#8592; Browse All Brands
                                 </Link>
                             </div>
                         ) : (
@@ -161,9 +138,9 @@ const BrandDetailPage = () => {
                                         value={sort}
                                         onChange={(e) => setSort(e.target.value)}
                                     >
-                                        <option value="name-asc">Name: A → Z</option>
-                                        <option value="price-asc">Price: Low → High</option>
-                                        <option value="price-desc">Price: High → Low</option>
+                                        <option value="name-asc">Name: A &#8594; Z</option>
+                                        <option value="price-asc">Price: Low &#8594; High</option>
+                                        <option value="price-desc">Price: High &#8594; Low</option>
                                         <option value="discount">Best Discount</option>
                                     </select>
                                 </div>
@@ -216,4 +193,3 @@ const BrandDetailPage = () => {
 };
 
 export default BrandDetailPage;
-

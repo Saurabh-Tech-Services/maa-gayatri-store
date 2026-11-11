@@ -12,9 +12,9 @@ aws.config.update({
 const s3 = new aws.S3();
 
 function checkFileType(file, cb) {
-    const filetypes = /jpeg|jpg|png/;
+    const filetypes = /jpeg|jpg|png|webp|avif/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
+    const mimetype = /jpeg|jpg|png|webp|avif/.test(file.mimetype);
 
     if (mimetype && extname) {
         return cb(null, true);

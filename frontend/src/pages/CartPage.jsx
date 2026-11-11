@@ -9,7 +9,7 @@ import { formatCurrency } from '../utils/formatCurrency';
 import Meta from '../components/Meta';
 import './CartPage.css';
 import './AllCategoriesPage.css'; // For shared status styles
-import { trackRemoveFromCart } from '../utils/eventTracker';
+import { trackRemoveFromCart } from '../utils/storeMetrics';
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState([]);

@@ -9,7 +9,7 @@ import Meta from '../components/Meta';
 import StructuredData from '../components/StructuredData';
 import './ProductDetailPage.css';
 import './AllCategoriesPage.css'; // For shared status styles
-import { trackProductView, trackAddToCart } from '../utils/eventTracker';
+import { trackProductView, trackAddToCart } from '../utils/storeMetrics';
 
 const ProductDetailPage = () => {
     const { slug } = useParams();
